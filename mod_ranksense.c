@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Derived from mod_remoteip.c.
+ * Derived from mod_cloudflare.c and mod_remoteip.c.
  * Default values for directives are hard-wired for Ranksense defaults.
  *
  * Supported directives and example values (further info in README):

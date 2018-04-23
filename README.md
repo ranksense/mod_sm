@@ -3,7 +3,7 @@ Copyright Ranksense Inc. 2018
 
 ## mod_ranksense.c ##
 
-Based on mod_remoteip.c, this Apache extension will replace the remote_ip variable in user's logs with the correct remote IP sent from Ranksense. The module only performs the IP substitution for requests containing proper secret key in `X-SM-SECRET` header.
+Based on mod_cloudflare.c and mod_remoteip.c, this Apache extension will replace the remote_ip variable in user's logs with the correct remote IP sent from Ranksense. The module only performs the IP substitution for requests containing proper secret key in `X-SM-SECRET` header.
 
 In addition to this, the extension will also set the HTTPS environment variable to "on" in cases where Flexible SSL is in use. This prevents software such as WordPress from being broken by Flexible SSL.
 
