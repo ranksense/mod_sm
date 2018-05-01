@@ -52,6 +52,22 @@ If you cannot find `apxs` or `apxs2`, install `apache2-dev` on Debian and Ubuntu
 
     $ apt-get install apache2-dev
     $ yum install httpd-devel
+    
+#### Installing on Red Hat Enteprise Linux 7
+
+You need to install httpd-devel package to use `apxs` and `gcc` to compile the extension:
+
+    $ sudo yum install httpd-devel gcc
+    
+Then you can use the `apxs` command to install the extension, it should be installed in the `/usr/lib64/httpd/modules` directory (it may be located under `/usr/lib/httpd/modules` location in case of 32-bit OS):
+
+    $ sudo apxs -a -i -c mod_ranksense.c
+    
+In a typical configuration the Apache config should be located in the `/etc/httpd/conf/httpd.conf` file and it should contain the following line added automatically by the `apxs` command:
+
+    LoadModule ranksense_module   /usr/lib64/httpd/modules/mod_ranksense.so
+    
+If that's not the case refer to the `Loading the Module` section. Please remember to configure the `RanksenseRemoteIPHeader` and `RanksenseSecret` directives.
 
 ## Additional Notes ##
 
