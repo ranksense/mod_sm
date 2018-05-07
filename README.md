@@ -29,7 +29,7 @@ In order to make module work, please set `RanksenseSecret` value in configuratio
 
 This specifies the header which contains the original IP. Default:
 
-    RanksenseRemoteIPHeader X-REAL-IP
+    RanksenseRemoteIPHeader X-SM-CONNECTING-IP
 
 ### RanksenseSecret ###
 
