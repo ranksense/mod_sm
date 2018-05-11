@@ -31,6 +31,12 @@ This specifies the header which contains the original IP. Default:
 
     RanksenseRemoteIPHeader X-SM-CONNECTING-IP
 
+### RanksenseOnly ###
+
+If it is set to `Off` and there is no `RanksenseRemoteIPHeader` header, module does nothing, otherwise parameter has no effect. Default:
+
+    RanksenseOnly On
+
 ### RanksenseSecret ###
 
 If header `X-SM-SECRET` is not set for request, or its value does not match configuration, HTTP status will be 403:

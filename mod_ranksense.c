@@ -53,6 +53,7 @@ typedef struct {
      */
 
     const char *secret;
+    int restricted_access_only;
 
 } ranksense_config_t;
 
@@ -81,6 +82,8 @@ static void *create_ranksense_server_config(apr_pool_t *p, server_rec *s)
         return NULL;
     }
     config->header_name = CF_DEFAULT_IP_HEADER;
+    config->secret = NULL;
+    config->restricted_access_only = 1;
     return config;
 }
 
@@ -118,6 +121,15 @@ static const char *secret_set(cmd_parms *cmd, void *dummy,
     config->secret = apr_pstrdup(cmd->pool, arg);
     return NULL;
 }
+
+static const char *restricted_access_only_set(cmd_parms *cmd, void *dummy, int flag)
+{
+    ranksense_config_t *config = ap_get_module_config(cmd->server->module_config,
+                                                       &ranksense_module);
+    config->restricted_access_only = flag;
+    return NULL;
+}
+
 
 /* Would be quite nice if APR exported this */
 /* apr:network_io/unix/sockaddr.c */
@@ -159,6 +171,9 @@ static int ranksense_modify_connection(request_rec *r)
     void *internal = NULL;
     const char *cf_visitor_header = NULL;
     int secret_len;
+
+    if (!config->restricted_access_only && !secret)
+        return OK;
 
     if (config->secret) {
         if (!secret)
@@ -442,6 +457,9 @@ static const command_rec ranksense_cmds[] =
                   "Overrides the default of X-SM-CONNECTING-IP"),
     AP_INIT_TAKE1("RanksenseSecret", secret_set, NULL, RSRC_CONF,
                   "Specifies a secret key to verify requestor"),
+    AP_INIT_FLAG("RanksenseOnly", restricted_access_only_set, NULL, RSRC_CONF,
+                  "If it is set to `Off` and there is no `RanksenseRemoteIPHeader` header, "
+                  "module does nothing, otherwise parameter has no effect."),
     { NULL }
 };
 
